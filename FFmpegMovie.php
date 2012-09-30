@@ -14,6 +14,7 @@ class FFmpegMovie implements Serializable {
     protected static $REGEX_COMMENT           = '/comment\s*(:|=)\s*(.+)/i';
     protected static $REGEX_TITLE             = '/title\s*(:|=)\s*(.+)/i';
     protected static $REGEX_ARTIST            = '/(artist|author)\s*(:|=)\s*(.+)/i';
+    protected static $REGEX_ALBUM             = '/(album)\s*(:|=)\s*(.+)/i';
     protected static $REGEX_COPYRIGHT         = '/copyright\s*(:|=)\s*(.+)/i';
     protected static $REGEX_GENRE             = '/genre\s*(:|=)\s*(.+)/i';
     protected static $REGEX_TRACK_NUMBER      = '/track\s*(:|=)\s*(.+)/i';
@@ -94,6 +95,12 @@ class FFmpegMovie implements Serializable {
     * @var string
     */
     protected $artist;
+    /**
+     * Album ID3 field
+     *
+     * @var string
+     */
+    protected $album;
     /**
     * Copyright ID3 field
     * 
@@ -323,20 +330,35 @@ class FFmpegMovie implements Serializable {
     }
     
     /**
-    * Return the author field from the movie or the artist ID3 field from an mp3 file; alias $movie->getArtist()
-    * 
-    * @return string
-    */
+ * Return the author field from the movie or the artist ID3 field from an mp3 file; alias $movie->getArtist()
+ *
+ * @return string
+ */
     public function getArtist() {
         if ($this->artist === null) {
             $match = array();
             preg_match(self::$REGEX_ARTIST, $this->output, $match);
             $this->artist = (array_key_exists(3, $match)) ? trim($match[3]) : '';
         }
-        
+
         return $this->artist;
     }
-    
+
+    /**
+     * Return the album field from the movie or the album ID3 field from an mp3 file; alias $movie->getAlbum()
+     *
+     * @return string
+     */
+    public function getAlbum() {
+        if ($this->album === null) {
+            $match = array();
+            preg_match(self::$REGEX_ALBUM, $this->output, $match);
+            $this->album = (array_key_exists(3, $match)) ? trim($match[3]) : '';
+        }
+
+        return $this->artist;
+    }
+
     /**
     * Return the author field from the movie or the artist ID3 field from an mp3 file.
     * 
