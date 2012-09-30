@@ -356,7 +356,7 @@ class FFmpegMovie implements Serializable {
             $this->album = (array_key_exists(3, $match)) ? trim($match[3]) : '';
         }
 
-        return $this->artist;
+        return $this->album;
     }
 
     /**
